@@ -1,0 +1,17 @@
+{
+  "lib": ["es2015", "es2016"],
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "rules": {
+    "ordered-imports": [false],
+    "object-literal-sort-keys": [false]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

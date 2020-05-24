@@ -1,0 +1,38 @@
+{
+  "name": "mobx-flipper",
+  "version": "1.0.0",
+  "description": "Mobx middleware for flipper",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Khorark <khorark@gmail.com> (https://github.com/khorark)",
+  "homepage": "https://github.com/jk-gan/mobx-flipper",
+  "bugs": "https://github.com/khorark/mobx-flipper/issues",
+  "repository": {
+    "url": "https://github.com/khorark/mobx-flipper",
+    "type": "git"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "peerDependencies": {
+    "react-native": "^0.62.0",
+    "react-native-flipper": "^0.37.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lodash.clonedeep": "^4.5.6",
+    "eslint": "^7.1.0",
+    "prettier": "2.0.5",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "mobx": "^5.14.2",
+    "mobx-state-tree": "^3.16.0",
+    "react-native-flipper": "^0.39.0",
+    "lodash.clonedeep": "4.5.0"
+  }
+}
