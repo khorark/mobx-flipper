@@ -134,13 +134,17 @@ export const createMstDebugger = (initStore: any) => {
       callback?: (value: any) => any,
     ) => void,
   ) => {
-    const before = toJS(call.tree, {recurseEverything: true});
-    const startTime = new Date();
+    if (currentConnection) {
+      const before = toJS(call.tree, {recurseEverything: true});
+      const startTime = new Date();
 
-    next(call);
+      next(call);
 
-    const payload = generatePayload({...call, startTime, before});
-    currentConnection.send(call.type, payload);
+      const payload = generatePayload({...call, startTime, before});
+      currentConnection.send(call.type, payload);
+    } else {
+      next(call);
+    }
   };
 };
 
