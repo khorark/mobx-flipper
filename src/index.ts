@@ -1,5 +1,4 @@
 import {addPlugin} from 'react-native-flipper';
-import cloneDeep from 'lodash.clonedeep';
 import {toJS} from 'mobx';
 
 import {applyPatch, IMiddlewareEvent} from 'mobx-state-tree';
@@ -87,31 +86,40 @@ const recieveMessage = (store: any) => {
   });
 };
 
-const setAsyncTimeout = () =>
-  new Promise((resolve) => setTimeout(() => resolve(), 1000));
-
 export const createMobxDebugger = (store: any) => {
   initPlugin(store);
+  let payload: any | undefined;
 
-  return async (event: Event) => {
-    if (event.type === 'action') {
-      // TODO lodash.cloneDeep - error maximum call stack size
-      const before = JSON.parse(JSON.stringify(toJS(store)));
+  return (event: Event) => {
+    switch (event.type) {
+      case 'action':
+        const before = toJS(store, {recurseEverything: true});
+        const startTime = new Date();
 
-      // TODO How get state after mutate?
-      await setAsyncTimeout();
+        payload = generatePayload({
+          id: Date.parse(startTime.toString()),
+          args:
+            event.arguments && event.arguments[0].nativeEvent
+              ? undefined
+              : event.arguments,
+          name: event.name,
+          tree: {},
+          before,
+          startTime,
+        });
+        break;
+      case 'reaction':
+        if (!payload) return;
 
-      const startTime = new Date();
-      const payload = generatePayload({
-        id: Date.parse(startTime.toUTCString()),
-        args: event.arguments,
-        name: event.name,
-        tree: toJS(store),
-        before,
-        startTime,
-      });
+        payload.after = toJS(store);
+        payload.took = `${
+          Date.now() - Date.parse(payload.startTime.toString())
+        } ms`;
 
-      currentConnection.send(event.type, payload);
+        currentConnection.send('action', payload);
+
+        payload = undefined;
+        break;
     }
   };
 };
@@ -126,7 +134,7 @@ export const createMstDebugger = (initStore: any) => {
       callback?: (value: any) => any,
     ) => void,
   ) => {
-    const before = cloneDeep(toJS(call.tree));
+    const before = toJS(call.tree, {recurseEverything: true});
     const startTime = new Date();
 
     next(call);
@@ -148,6 +156,7 @@ const generatePayload = ({
 
   return {
     id,
+    startTime,
     time: `${startTime.getUTCHours()}:${startTime.getUTCMinutes()}:${startTime.getUTCSeconds()}-${startTime.getUTCMilliseconds()}`,
     took: `${now - Date.parse(startTime.toString())} ms`,
     action: {type: name, payload: args ? args[0] : undefined},
