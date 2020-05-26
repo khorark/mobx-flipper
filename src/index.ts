@@ -137,9 +137,9 @@ export const createMstDebugger = (initStore: any) => {
     ) => void,
   ) => {
     if (currentConnection && !exlude_actions.includes(call.name)) {
-      const before = toJS(call.tree, {recurseEverything: true});
       const startTime = new Date();
 
+      const before = toJS(call.tree, {recurseEverything: true});
       next(call);
 
       const payload = generatePayload({...call, startTime, before});
@@ -167,6 +167,6 @@ const generatePayload = ({
     took: `${now - Date.parse(startTime.toString())} ms`,
     action: {type: name, payload: args ? args[0] : undefined},
     before,
-    after: toJS(tree),
+    after: toJS(tree, {recurseEverything: true}),
   };
 };
