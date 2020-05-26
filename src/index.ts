@@ -31,6 +31,8 @@ const errors = {
   MST_NOT_FOUND: 'MST_NOT_FOUND',
 };
 
+const exlude_actions = ['@APPLY_SNAPSHOT'];
+
 const initPlugin = (initStore: any, isMst = false) => {
   if (currentConnection == null) {
     addPlugin({
@@ -134,7 +136,7 @@ export const createMstDebugger = (initStore: any) => {
       callback?: (value: any) => any,
     ) => void,
   ) => {
-    if (currentConnection) {
+    if (currentConnection && !exlude_actions.includes(call.name)) {
       const before = toJS(call.tree, {recurseEverything: true});
       const startTime = new Date();
 
