@@ -1,7 +1,7 @@
 import {addPlugin} from 'react-native-flipper';
 import {toJS} from 'mobx';
 
-import {applyPatch, IMiddlewareEvent} from 'mobx-state-tree';
+import {applyPatch, IMiddlewareEvent, getPath} from 'mobx-state-tree';
 
 let currentConnection: any = null;
 
@@ -142,7 +142,7 @@ export const createMstDebugger = (initStore: any) => {
       const before = toJS(call.tree, {recurseEverything: true});
       next(call);
 
-      const payload = generatePayload({...call, startTime, before});
+      const payload = generatePayload({...call, name: `${getPath(call.context)}/${call.name}`, startTime, before});
       currentConnection.send(call.type, payload);
     } else {
       next(call);
