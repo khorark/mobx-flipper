@@ -93,35 +93,37 @@ export const createMobxDebugger = (store: any) => {
   let payload: any | undefined;
 
   return (event: Event) => {
-    switch (event.type) {
-      case 'action':
-        const before = toJS(store, {recurseEverything: true});
-        const startTime = new Date();
+    if (currentConnection) {
+      switch (event.type) {
+        case 'action':
+          const before = toJS(store, {recurseEverything: true});
+          const startTime = new Date();
 
-        payload = generatePayload({
-          id: Date.parse(startTime.toString()),
-          args:
-            event.arguments && event.arguments[0].nativeEvent
-              ? undefined
-              : event.arguments,
-          name: event.name,
-          tree: {},
-          before,
-          startTime,
-        });
-        break;
-      case 'reaction':
-        if (!payload) return;
+          payload = generatePayload({
+            id: Date.parse(startTime.toString()),
+            args:
+              event?.arguments?.length && event.arguments[0].nativeEvent
+                ? undefined
+                : event.arguments,
+            name: event.name,
+            tree: {},
+            before,
+            startTime,
+          });
+          break;
+        case 'reaction':
+          if (!payload) return;
 
-        payload.after = toJS(store);
-        payload.took = `${
-          Date.now() - Date.parse(payload.startTime.toString())
-        } ms`;
+          payload.after = toJS(store);
+          payload.took = `${
+            Date.now() - Date.parse(payload.startTime.toString())
+          } ms`;
 
-        currentConnection.send('action', payload);
+          currentConnection.send('action', payload);
 
-        payload = undefined;
-        break;
+          payload = undefined;
+          break;
+      }
     }
   };
 };
@@ -142,7 +144,12 @@ export const createMstDebugger = (initStore: any) => {
       const before = toJS(call.tree, {recurseEverything: true});
       next(call);
 
-      const payload = generatePayload({...call, name: `${getPath(call.context)}/${call.name}`, startTime, before});
+      const payload = generatePayload({
+        ...call,
+        name: `${getPath(call.context)}/${call.name}`,
+        startTime,
+        before,
+      });
       currentConnection.send(call.type, payload);
     } else {
       next(call);
