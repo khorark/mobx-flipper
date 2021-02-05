@@ -19,8 +19,7 @@
     "dist/**/*"
   ],
   "peerDependencies": {
-    "react-native": "^0.62.0",
-    "react-native-flipper": "^0.50.0"
+    "react-native": "^0.63.0"
   },
   "license": "MIT",
   "devDependencies": {
