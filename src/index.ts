@@ -96,7 +96,7 @@ export const createMobxDebugger = (store: any) => {
     if (currentConnection) {
       switch (event.type) {
         case 'action':
-          const before = toJS(store, {recurseEverything: true});
+          const before = toJS(store);
           const startTime = new Date();
 
           payload = generatePayload({
@@ -141,7 +141,7 @@ export const createMstDebugger = (initStore: any) => {
     if (currentConnection && !exlude_actions.includes(call.name)) {
       const startTime = new Date();
 
-      const before = toJS(call.tree, {recurseEverything: true});
+      const before = toJS(call.tree);
       next(call);
 
       const payload = generatePayload({
@@ -174,6 +174,6 @@ const generatePayload = ({
     took: `${now - Date.parse(startTime.toString())} ms`,
     action: {type: name, payload: args ? args[0] : undefined},
     before,
-    after: toJS(tree, {recurseEverything: true}),
+    after: toJS(tree),
   };
 };
