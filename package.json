@@ -1,6 +1,6 @@
 {
   "name": "mobx-flipper",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "description": "Mobx middleware for flipper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "Khorark <khorark@gmail.com> (https://github.com/khorark)",
-  "homepage": "https://github.com/jk-gan/mobx-flipper",
+  "homepage": "https://github.com/khorark/mobx-flipper",
   "bugs": "https://github.com/khorark/mobx-flipper/issues",
   "repository": {
     "url": "https://github.com/khorark/mobx-flipper",

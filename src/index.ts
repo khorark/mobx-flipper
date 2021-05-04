@@ -1,5 +1,4 @@
 import {addPlugin} from 'react-native-flipper';
-import {toJS} from 'mobx';
 
 import {applyPatch, IMiddlewareEvent, getPath} from 'mobx-state-tree';
 
@@ -96,7 +95,7 @@ export const createMobxDebugger = (store: any) => {
     if (currentConnection) {
       switch (event.type) {
         case 'action':
-          const before = toJS(store, {recurseEverything: true});
+          const before = store;
           const startTime = new Date();
 
           payload = generatePayload({
@@ -114,7 +113,7 @@ export const createMobxDebugger = (store: any) => {
         case 'reaction':
           if (!payload) return;
 
-          payload.after = toJS(store);
+          payload.after = store;
           payload.took = `${
             Date.now() - Date.parse(payload.startTime.toString())
           } ms`;
@@ -141,7 +140,7 @@ export const createMstDebugger = (initStore: any) => {
     if (currentConnection && !exlude_actions.includes(call.name)) {
       const startTime = new Date();
 
-      const before = toJS(call.tree, {recurseEverything: true});
+      const before = call.tree;
       next(call);
 
       const payload = generatePayload({
@@ -174,6 +173,6 @@ const generatePayload = ({
     took: `${now - Date.parse(startTime.toString())} ms`,
     action: {type: name, payload: args ? args[0] : undefined},
     before,
-    after: toJS(tree, {recurseEverything: true}),
+    after: tree,
   };
 };
