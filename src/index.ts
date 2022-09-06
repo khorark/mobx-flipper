@@ -101,7 +101,7 @@ export const createMobxDebugger = (store: any) => {
           payload = generatePayload({
             id: Date.parse(startTime.toString()),
             args:
-              event?.arguments?.length && event.arguments[0].nativeEvent
+              event?.arguments?.length && event.arguments[0]?.nativeEvent
                 ? undefined
                 : event.arguments,
             name: event.name,
