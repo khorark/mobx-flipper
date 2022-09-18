@@ -1,6 +1,6 @@
 {
   "name": "@gasbuddy/mobx-flipper",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Mobx middleware for flipper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,14 +23,14 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/lodash.clonedeep": "^4.5.6",
-    "eslint": "^7.31.0",
-    "prettier": "^2.3.2",
-    "typescript": "^4.3.5"
+    "@types/lodash.clonedeep": "^4.5.7",
+    "eslint": "^8.23.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.3"
   },
   "dependencies": {
-    "mobx": "^6.3.2",
-    "mobx-state-tree": "^5.0.2",
-    "react-native-flipper": "^0.99.0"
+    "mobx": "^6.6.2",
+    "mobx-state-tree": "^5.1.6",
+    "react-native-flipper": "^0.164.0"
   }
 }
