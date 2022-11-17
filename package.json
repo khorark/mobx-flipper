@@ -1,6 +1,6 @@
 {
   "name": "mobx-flipper",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Mobx middleware for flipper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,6 @@
     "dist/**/*"
   ],
   "peerDependencies": {
-    "react-native": "^0.64.0",
     "react-native-flipper": "^0.87.0"
   },
   "license": "MIT",
